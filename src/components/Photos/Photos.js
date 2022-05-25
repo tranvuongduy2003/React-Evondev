@@ -21,8 +21,8 @@ const Photos = () => {
 
   const handleLoadMorePhotos = () => {
     getRandomPhotos(nextPage).then((images) => {
-      console.log(images);
-      setRandomPhotos(images);
+      const newPhotos = [...randomPhotos, ...images];
+      setRandomPhotos(newPhotos);
       setNextPage(nextPage + 1);
     });
   };
