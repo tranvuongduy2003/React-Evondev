@@ -31,19 +31,12 @@ const gameReducer = (state, action) => {
   return state;
 };
 
-//deep copy JSON.parse(JSON.stringify(obj))
+//deep copy ~ JSON.parse(JSON.stringify(obj))
 const Game = () => {
   const [state, dispatch] = useReducer(gameReducer, initialState);
-  // const [state, setState] = useState({
-  //   board: Array(9).fill(null),
-  //   xIsNext: true,
-  // });
   const winner = calculateWinner(state.board);
   console.log(winner);
   const handleClick = (index) => {
-    // const boardCopy = [...state.board];
-    // if (winner || boardCopy[index]) return;
-    // boardCopy[index] = state.xIsNext ? "X" : "O";
     dispatch({
       type: "CLICK",
       payload: {
@@ -51,18 +44,8 @@ const Game = () => {
         winner,
       },
     });
-    // setState({
-    //   ...state,
-    //   board: boardCopy,
-    //   xIsNext: !state.xIsNext,
-    // });
   };
   const handleResetGame = () => {
-    // setState({
-    //   ...state,
-    //   board: Array(9).fill(null),
-    //   xIsNext: true,
-    // });
     dispatch({
       type: "RESET",
     });
