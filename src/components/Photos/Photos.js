@@ -4,27 +4,26 @@ import axios from "axios";
 // https://picsum.photos/v2/list
 // https://picsum.photos/v2/list?page=2&limit=100
 
-const getRandomPhotos = (page) => {
-  return axios
-    .get(`https://picsum.photos/v2/list?page=${page}&limit=8`)
-    .then((response) => {
-      return response.data;
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+const getRandomPhotos = async (page) => {
+  try {
+    const response = await axios.get(
+      `https://picsum.photos/v2/list?page=${page}&limit=8`
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const Photos = () => {
   const [randomPhotos, setRandomPhotos] = useState([]);
   const [nextPage, setNextPage] = useState(1);
 
-  const handleLoadMorePhotos = () => {
-    getRandomPhotos(nextPage).then((images) => {
-      const newPhotos = [...randomPhotos, ...images];
-      setRandomPhotos(newPhotos);
-      setNextPage(nextPage + 1);
-    });
+  const handleLoadMorePhotos = async () => {
+    const images = await getRandomPhotos(nextPage);
+    const newPhotos = [...randomPhotos, ...images];
+    setRandomPhotos(newPhotos);
+    setNextPage(nextPage + 1);
   };
 
   useEffect(() => {
