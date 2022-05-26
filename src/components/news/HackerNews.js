@@ -62,7 +62,7 @@ const HackerNews = () => {
         {!loading &&
           hits.length > 0 &&
           hits.map((item, index) => {
-            if (!item.title) return null;
+            if (!item.title || item.title.length <= 0) return null;
             return (
               <h3 key={item.objectID} className="p-3 bg-gray-100 rounded-md">
                 {item.title}
