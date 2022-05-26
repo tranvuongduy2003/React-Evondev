@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import lodash, { set } from "lodash";
 
 // https://hn.algolia.com/api/v1/search?query=react
 
@@ -13,7 +14,7 @@ const HackerNews = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `https://hn.algolia.com/api/v1/search?qery=${query}`
+        `https://hn.algolia.com/api/v1/search?query=${query}`
       );
       setHits(response.data?.hits || []);
       setLoading(false);
@@ -23,6 +24,9 @@ const HackerNews = () => {
       setLoading(false);
     }
   };
+  const handleUpdateQuery = lodash.debounce((e) => {
+    setQuery(e.target.value);
+  }, 500);
   useEffect(() => {
     handleFetchData.current();
   }, [query]);
@@ -31,8 +35,8 @@ const HackerNews = () => {
       <input
         type="text"
         className="p-5 mb-5 border border-green-500 text-black"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        defaultValue={query}
+        onChange={handleUpdateQuery}
       />
       {loading && (
         <div className="loading w-8 h-8 rounded-full border border-blue-500 border-4 border-r-white animate-spin"></div>
