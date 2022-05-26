@@ -18,7 +18,7 @@ const hackerNewsReducer = (state, action) => {
     }
 
     case "SET_LOADING": {
-      return { ...state, loading: action.loading };
+      return { ...state, loading: action.payload };
     }
 
     case "SET_ERROR": {
@@ -42,20 +42,12 @@ const HackerNewsWithReducer = () => {
   const [state, dispatch] = useReducer(hackerNewsReducer, initialState);
 
   const handleFetchData = useRef([]);
-  // const [hits, setHits] = useState([]);
-  // const [query, setQuery] = useState("react");
-  // const [loading, setLoading] = useState("react");
-  // const [errorMessage, setErrorMessage] = useState("");
-  // const [url, setUrl] = useState(
-  //   `https://hn.algolia.com/api/v1/search?query=${query}`
-  // );
   handleFetchData.current = async () => {
     dispatch({
       type: "SET_LOADING",
       payload: true,
     });
     try {
-      // setLoading(true);
       const response = await axios.get(
         `https://hn.algolia.com/api/v1/search?query=${state.query}`
       );
@@ -67,8 +59,6 @@ const HackerNewsWithReducer = () => {
         type: "SET_LOADING",
         payload: false,
       });
-      // setHits(response.data?.hits || []);
-      // setLoading(false);
     } catch (error) {
       console.log(error);
       dispatch({
@@ -79,13 +69,8 @@ const HackerNewsWithReducer = () => {
         type: "SET_LOADING",
         payload: false,
       });
-      // setErrorMessage(`The error happened ${error}`);
-      // setLoading(false);
     }
   };
-  //   const handleUpdateQuery = lodash.debounce((e) => {
-  //     setQuery(e.target.value);
-  //   }, 500);
   useEffect(() => {
     handleFetchData.current();
   }, [state.url]);
@@ -111,7 +96,11 @@ const HackerNewsWithReducer = () => {
               payload: `https://hn.algolia.com/api/v1/search?query=${state.query}`,
             })
           }
-          className="bg-blue-500 text-white font-semibold p-5 rounded-md flex-shrink-0"
+          disabled={state.loading}
+          className="bg-blue-500 text-white font-semibold p-5 rounded-md flex-shrink-0 outline-none"
+          style={{
+            opacity: state.loading ? "0.25" : "1",
+          }}
         >
           Fetching
         </button>
