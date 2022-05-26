@@ -1,7 +1,6 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import axios from "axios";
 import lodash, { set } from "lodash";
-
 // https://hn.algolia.com/api/v1/search?query=react
 
 const initialState = {
@@ -14,27 +13,23 @@ const initialState = {
 
 const hackerNewsReducer = (state, action) => {
   switch (action.type) {
-    case "TRY": {
-      const { hits, loading } = action.payload;
-      const nextState = JSON.parse(JSON.stringify(state));
-      nextState.hits = hits;
-      nextState.loading = loading;
-      return nextState;
+    case "SET_DATA": {
+      return { ...state, hits: action.payload };
     }
 
-    case "CATCH": {
-      const { errorMessage, loading } = action.payload;
-      const nextState = JSON.parse(JSON.stringify(state));
-      nextState.errorMessage = errorMessage;
-      nextState.loading = loading;
-      return nextState;
+    case "SET_LOADING": {
+      return { ...state, loading: action.loading };
     }
 
-    case "CHANGE": {
+    case "SET_ERROR": {
+      return { ...state, errorMessage: action.payload };
+    }
+
+    case "SET_QUERY": {
       return { ...state, query: action.payload };
     }
 
-    case "CLICK": {
+    case "SET_URL": {
       return { ...state, url: action.url };
     }
 
@@ -43,40 +38,54 @@ const hackerNewsReducer = (state, action) => {
   }
 };
 
-const HackerNewsClone = () => {
+const HackerNewsWithReducer = () => {
   const [state, dispatch] = useReducer(hackerNewsReducer, initialState);
 
   const handleFetchData = useRef([]);
+  // const [hits, setHits] = useState([]);
+  // const [query, setQuery] = useState("react");
+  // const [loading, setLoading] = useState("react");
+  // const [errorMessage, setErrorMessage] = useState("");
+  // const [url, setUrl] = useState(
+  //   `https://hn.algolia.com/api/v1/search?query=${query}`
+  // );
   handleFetchData.current = async () => {
+    dispatch({
+      type: "SET_LOADING",
+      payload: true,
+    });
     try {
-      dispatch({
-        type: "TRY",
-        payload: {
-          hits: [],
-          loading: true,
-        },
-      });
+      // setLoading(true);
       const response = await axios.get(
         `https://hn.algolia.com/api/v1/search?query=${state.query}`
       );
       dispatch({
-        type: "TRY",
-        payload: {
-          hits: response.data?.hits || [],
-          loading: false,
-        },
+        type: "SET_DATA",
+        payload: response.data?.hits || [],
       });
+      dispatch({
+        type: "SET_LOADING",
+        payload: false,
+      });
+      // setHits(response.data?.hits || []);
+      // setLoading(false);
     } catch (error) {
       console.log(error);
       dispatch({
-        type: "CATCH",
-        payload: {
-          errorMessage: `The error happened ${error}`,
-          loading: false,
-        },
+        type: "SET_ERROR",
+        payload: `The error happened ${error}`,
       });
+      dispatch({
+        type: "SET_LOADING",
+        payload: false,
+      });
+      // setErrorMessage(`The error happened ${error}`);
+      // setLoading(false);
     }
   };
+  //   const handleUpdateQuery = lodash.debounce((e) => {
+  //     setQuery(e.target.value);
+  //   }, 500);
   useEffect(() => {
     handleFetchData.current();
   }, [state.url]);
@@ -90,7 +99,7 @@ const HackerNewsClone = () => {
           defaultValue={state.query}
           onChange={(e) =>
             dispatch({
-              type: "CHANGE",
+              type: "SET_QUERY",
               payload: e.target.value,
             })
           }
@@ -98,7 +107,7 @@ const HackerNewsClone = () => {
         <button
           onClick={() =>
             dispatch({
-              type: "CLICK",
+              type: "SET_URL",
               payload: `https://hn.algolia.com/api/v1/search?query=${state.query}`,
             })
           }
@@ -129,4 +138,4 @@ const HackerNewsClone = () => {
   );
 };
 
-export default HackerNewsClone;
+export default HackerNewsWithReducer;
