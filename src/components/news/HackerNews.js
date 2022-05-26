@@ -7,7 +7,7 @@ import lodash, { set } from "lodash";
 const HackerNews = () => {
   const [hits, setHits] = useState([]);
   const [query, setQuery] = useState("react");
-  const [loading, setLoading] = useState("react");
+  const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
   const handleFetchData = useRef([]);
   const [url, setUrl] = useState(

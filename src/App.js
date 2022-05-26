@@ -4,6 +4,7 @@ import Game from "./components/tictactoe/Game";
 import Photos from "./components/Photos/Photos";
 import Header from "./components/Header";
 import HackerNews from "./components/news/HackerNews";
+import HackerNewsClone from "./components/newsClone/HackerNewsClone";
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
       {/* <Game></Game> */}
       {/* <Photos></Photos> */}
       {/* <Header></Header> */}
-      <HackerNews></HackerNews>
+      {/* <HackerNews></HackerNews> */}
+      <HackerNewsClone></HackerNewsClone>
     </div>
   );
 }
