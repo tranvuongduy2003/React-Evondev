@@ -6,6 +6,7 @@ import Header from "./components/Header";
 import HackerNews from "./components/news/HackerNews";
 import HackerNewsClone from "./components/newsClone/HackerNewsClone";
 import HackerNewsWithReducer from "./components/HackerNewsWithReducer/HackerNewsWithReducer";
+import StopWatch from "./components/StopWatch/StopWatch";
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
       {/* <Header></Header> */}
       {/* <HackerNews></HackerNews> */}
       {/* <HackerNewsClone></HackerNewsClone> */}
-      <HackerNewsWithReducer></HackerNewsWithReducer>
+      {/* <HackerNewsWithReducer></HackerNewsWithReducer> */}
+      <StopWatch></StopWatch>
     </div>
   );
 }
