@@ -7,6 +7,8 @@ import HackerNews from "./components/news/HackerNews";
 import HackerNewsClone from "./components/newsClone/HackerNewsClone";
 import HackerNewsWithReducer from "./components/HackerNewsWithReducer/HackerNewsWithReducer";
 import StopWatch from "./components/StopWatch/StopWatch";
+import Input from "./components/AutoFocusInput/Input";
+import TextareaAutoResize from "./components/TextareaAutoResize/TextareaAutoResize";
 
 function App() {
   return (
@@ -17,7 +19,9 @@ function App() {
       {/* <HackerNews></HackerNews> */}
       {/* <HackerNewsClone></HackerNewsClone> */}
       {/* <HackerNewsWithReducer></HackerNewsWithReducer> */}
-      <StopWatch></StopWatch>
+      {/* <StopWatch></StopWatch> */}
+      {/* <Input></Input> */}
+      <TextareaAutoResize></TextareaAutoResize>
     </div>
   );
 }
