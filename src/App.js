@@ -23,10 +23,10 @@ function App() {
       {/* <HackerNewsWithReducer></HackerNewsWithReducer> */}
       {/* <StopWatch></StopWatch> */}
       {/* <Input></Input> */}
-      {/* <div className="p-5">
+      <div className="p-5">
         <Dropdown></Dropdown>
-      </div> */}
-      <HackerNewsWithHook></HackerNewsWithHook>
+      </div>
+      {/* <HackerNewsWithHook></HackerNewsWithHook> */}
     </div>
   );
 }
