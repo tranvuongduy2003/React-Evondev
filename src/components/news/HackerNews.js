@@ -13,14 +13,25 @@ const HackerNews = () => {
   const [url, setUrl] = useState(
     `https://hn.algolia.com/api/v1/search?query=${query}`
   );
+
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    return () => {
+      isMounted.current = false;
+    };
+  });
+
   handleFetchData.current = async () => {
     try {
       setLoading(true);
       const response = await axios.get(
         `https://hn.algolia.com/api/v1/search?query=${query}`
       );
-      setHits(response.data?.hits || []);
-      setLoading(false);
+      if (isMounted.current) {
+        setHits(response.data?.hits || []);
+        setLoading(false);
+      }
     } catch (error) {
       console.log(error);
       setErrorMessage(`The error happened ${error}`);
