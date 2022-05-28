@@ -1,16 +1,24 @@
 import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // https://api.themoviedb.org/3/movie/550?api_key=7e12d3869fc93c0d942c505c589fe77a
 // https://api.themoviedb.org/3/search/movie?api_key=7e12d3869fc93c0d942c505c589fe77a&query=''
 
 const MovieSearchApp = () => {
+  const [movies, setMovies] = useState([]);
+
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/search/movie?api_key=7e12d3869fc93c0d942c505c589fe77a&query=''`
-      );
+      try {
+        const response = await axios.get(
+          `https://api.themoviedb.org/3/search/movie?api_key=7e12d3869fc93c0d942c505c589fe77a&query=''`
+        );
+        setMovies(response?.data?.results || []);
+      } catch (error) {
+        console.log(error);
+      }
     }
+    fetchData();
   }, []);
 
   return (
@@ -23,35 +31,35 @@ const MovieSearchApp = () => {
         />
       </div>
       <div className="grid grid-cols-3 gap-10">
-        <MovieItem></MovieItem>
-        <MovieItem></MovieItem>
-        <MovieItem></MovieItem>
+        {movies.length > 0 &&
+          movies.map((movie, index) => (
+            <MovieItem key={movie.id} data={movie}></MovieItem>
+          ))}
       </div>
     </div>
   );
 };
 
-const MovieItem = () => {
+const MovieItem = ({ data }) => {
   return (
     <div className="bg-white p-3 rounded-2xl shadow-sm">
       <div className="h-[297px]">
         <img
           className="h-full w-full object-cover rounded-lg"
-          src="https://images.unsplash.com/photo-1653686893504-8287ae6c2dab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=978&q=80"
+          src={`https://image.tmdb.org/t/p/original${data.poster_path}`}
           alt=""
         />
       </div>
       <div className="p-7">
         <h3 className="text-lg text-black font-semibold mb-4">
-          Hotel Transylvania: Puppy!
+          {data.original_title}
         </h3>
-        <p className="text-[#999] text-sm mb-6">
-          The residents of Hotel Transylvania find their world turned
-          upside-down when youngster Dennis gets a surprise monster-sized pet.
-        </p>
+        <p className="text-[#999] text-sm mb-6">{data.overview}</p>
         <div className="flex items-center gap-x-3">
           <img src="./star.svg" alt="" />
-          <span className="text-sm font-semibold text-[#333]">6.4</span>
+          <span className="text-sm font-semibold text-[#333]">
+            {data.vote_average}
+          </span>
         </div>
       </div>
     </div>
