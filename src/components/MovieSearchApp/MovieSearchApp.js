@@ -2,6 +2,7 @@ import axios from "axios";
 import { debounce } from "lodash";
 import React, { useEffect, useState } from "react";
 import useDebounce from "../../hooks/useDebounce";
+import LoadingSkeleton from "../LoadingSkeleton/LoadingSkeleton";
 
 // https://api.themoviedb.org/3/movie/550?api_key=7e12d3869fc93c0d942c505c589fe77a
 // https://api.themoviedb.org/3/search/movie?api_key=7e12d3869fc93c0d942c505c589fe77a&query=''
@@ -40,13 +41,47 @@ const MovieSearchApp = () => {
           onChange={(e) => debounce(setQuery(e.target.value), 1000)}
         />
       </div>
-      {loading && <div>Loading ... </div>}
+      {loading && (
+        <div className="grid grid-cols-3 gap-10">
+          <MovieItemLoading></MovieItemLoading>
+          <MovieItemLoading></MovieItemLoading>
+          <MovieItemLoading></MovieItemLoading>
+        </div>
+      )}
       <div className="grid grid-cols-3 gap-10">
         {!loading &&
           movies.length > 0 &&
           movies.map((movie, index) => (
             <MovieItem key={movie.id} data={movie}></MovieItem>
           ))}
+      </div>
+    </div>
+  );
+};
+
+const MovieItemLoading = () => {
+  return (
+    <div className="bg-white p-3 rounded-2xl shadow-sm flex flex-col">
+      <div className="h-[297px]">
+        <LoadingSkeleton height="100%" radius="8px"></LoadingSkeleton>
+      </div>
+      <div className="p-7 flex-1 flex flex-col">
+        <h3 className="text-lg text-black font-semibold mb-4">
+          <LoadingSkeleton height="20px"></LoadingSkeleton>
+        </h3>
+        <p className="text-[#999] text-sm mb-6 !leading-loose">
+          <LoadingSkeleton height="10px"></LoadingSkeleton>
+          <div className="h-2"></div>
+          <LoadingSkeleton height="10px"></LoadingSkeleton>
+          <div className="h-2"></div>
+          <LoadingSkeleton height="10px"></LoadingSkeleton>
+        </p>
+        <div className="flex items-center gap-x-3 mt-auto">
+          <img src="./star.svg" alt="" />
+          <span className="text-sm font-semibold text-[#333]">
+            <LoadingSkeleton height="10px" width="50px"></LoadingSkeleton>
+          </span>
+        </div>
       </div>
     </div>
   );
