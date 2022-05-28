@@ -9,15 +9,20 @@ import useDebounce from "../../hooks/useDebounce";
 const MovieSearchApp = () => {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(true);
   const queryDebounce = useDebounce(query, 500);
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
       try {
         const response = await axios.get(
           `https://api.themoviedb.org/3/search/movie?api_key=7e12d3869fc93c0d942c505c589fe77a&query='${queryDebounce}'`
         );
-        setMovies(response?.data?.results || []);
+        if (response.data.results) {
+          setMovies(response.data.results);
+          setLoading(false);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -35,8 +40,10 @@ const MovieSearchApp = () => {
           onChange={(e) => debounce(setQuery(e.target.value), 1000)}
         />
       </div>
+      {loading && <div>Loading ... </div>}
       <div className="grid grid-cols-3 gap-10">
-        {movies.length > 0 &&
+        {!loading &&
+          movies.length > 0 &&
           movies.map((movie, index) => (
             <MovieItem key={movie.id} data={movie}></MovieItem>
           ))}
