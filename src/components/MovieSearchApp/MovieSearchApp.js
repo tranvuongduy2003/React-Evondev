@@ -1,6 +1,7 @@
 import axios from "axios";
 import { debounce } from "lodash";
 import React, { useEffect, useState } from "react";
+import useDebounce from "../../hooks/useDebounce";
 
 // https://api.themoviedb.org/3/movie/550?api_key=7e12d3869fc93c0d942c505c589fe77a
 // https://api.themoviedb.org/3/search/movie?api_key=7e12d3869fc93c0d942c505c589fe77a&query=''
@@ -8,12 +9,13 @@ import React, { useEffect, useState } from "react";
 const MovieSearchApp = () => {
   const [movies, setMovies] = useState([]);
   const [query, setQuery] = useState("");
+  const queryDebounce = useDebounce(query, 500);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const response = await axios.get(
-          `https://api.themoviedb.org/3/search/movie?api_key=7e12d3869fc93c0d942c505c589fe77a&query='${query}'`
+          `https://api.themoviedb.org/3/search/movie?api_key=7e12d3869fc93c0d942c505c589fe77a&query='${queryDebounce}'`
         );
         setMovies(response?.data?.results || []);
       } catch (error) {
@@ -21,7 +23,7 @@ const MovieSearchApp = () => {
       }
     }
     fetchData();
-  }, [query]);
+  }, [queryDebounce]);
 
   return (
     <div className="p-10">
