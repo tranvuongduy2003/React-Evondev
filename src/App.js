@@ -11,6 +11,7 @@ import Input from "./components/AutoFocusInput/Input";
 import TextareaAutoResize from "./components/TextareaAutoResize/TextareaAutoResize";
 import Dropdown from "./components/Dropdown/Dropdown";
 import HackerNewsWithHook from "./components/HackerNewsWithHook/HackerNewsWithHook";
+import Form from "./components/form/Form";
 
 function App() {
   return (
@@ -23,10 +24,11 @@ function App() {
       {/* <HackerNewsWithReducer></HackerNewsWithReducer> */}
       {/* <StopWatch></StopWatch> */}
       {/* <Input></Input> */}
-      <div className="p-5">
+      {/* <div className="p-5">
         <Dropdown></Dropdown>
-      </div>
+      </div> */}
       {/* <HackerNewsWithHook></HackerNewsWithHook> */}
+      <Form></Form>
     </div>
   );
 }
