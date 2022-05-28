@@ -12,6 +12,7 @@ import TextareaAutoResize from "./components/TextareaAutoResize/TextareaAutoResi
 import Dropdown from "./components/Dropdown/Dropdown";
 import HackerNewsWithHook from "./components/HackerNewsWithHook/HackerNewsWithHook";
 import Form from "./components/form/Form";
+import MovieSearchApp from "./components/MovieSearchApp/MovieSearchApp";
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
         <Dropdown></Dropdown>
       </div> */}
       {/* <HackerNewsWithHook></HackerNewsWithHook> */}
-      <Form></Form>
+      <MovieSearchApp></MovieSearchApp>
     </div>
   );
 }
