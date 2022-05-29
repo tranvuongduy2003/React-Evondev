@@ -14,6 +14,7 @@ import HackerNewsWithHook from "./components/HackerNewsWithHook/HackerNewsWithHo
 import Form from "./components/form/Form";
 import MovieSearchApp from "./components/MovieSearchApp/MovieSearchApp";
 import SignUpForm from "./components/form/SignUpForm";
+import SignUpFormV2 from "./components/form/SignUpFormV2";
 
 function App() {
   return (
@@ -32,7 +33,8 @@ function App() {
       {/* <HackerNewsWithHook></HackerNewsWithHook> */}
       {/* <MovieSearchApp></MovieSearchApp> */}
       {/* <Form></Form> */}
-      <SignUpForm></SignUpForm>
+      {/* <SignUpForm></SignUpForm> */}
+      <SignUpFormV2></SignUpFormV2>
     </div>
   );
 }
