@@ -16,6 +16,7 @@ import MovieSearchApp from "./components/MovieSearchApp/MovieSearchApp";
 import SignUpForm from "./components/form/SignUpForm";
 import SignUpFormV2 from "./components/form/SignUpFormV2";
 import SignUpFormFinal from "./components/form/SignUpFormFinal";
+import SignUpFormHook from "./components/form/SignUpFormHook";
 
 function App() {
   return (
@@ -36,7 +37,8 @@ function App() {
       {/* <Form></Form> */}
       {/* <SignUpForm></SignUpForm> */}
       {/* <SignUpFormV2></SignUpFormV2> */}
-      <SignUpFormFinal></SignUpFormFinal>
+      {/* <SignUpFormFinal></SignUpFormFinal> */}
+      <SignUpFormHook></SignUpFormHook>
     </div>
   );
 }
