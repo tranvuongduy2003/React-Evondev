@@ -13,63 +13,82 @@ const SignUpFormFinal = () => {
         job: "",
         terms: false,
       }}
-      validationSchema={Yup.object({
-        firstName: Yup.string()
-          .max(20, "Must be 20 characters or less")
-          .required("Required"),
-        lastName: Yup.string()
-          .max(10, "Must be 10 characters or less")
-          .required("Required"),
-        email: Yup.string()
-          .email("Must be example@email.com")
-          .required("Required"),
-        intro: Yup.string().required("Required"),
-        job: Yup.string().required("Required"),
-        terms: Yup.boolean().oneOf(
-          [true],
-          "Please check the terms and conditions"
-        ),
-      })}
-      onSubmit={(values) => {
-        console.log(values);
+      // validationSchema={Yup.object({
+      //   firstName: Yup.string()
+      //     .max(20, "Must be 20 characters or less")
+      //     .required("Required"),
+      //   lastName: Yup.string()
+      //     .max(10, "Must be 10 characters or less")
+      //     .required("Required"),
+      //   email: Yup.string()
+      //     .email("Must be example@email.com")
+      //     .required("Required"),
+      //   intro: Yup.string().required("Required"),
+      //   job: Yup.string().required("Required"),
+      //   terms: Yup.boolean().oneOf(
+      //     [true],
+      //     "Please check the terms and conditions"
+      //   ),
+      // })}
+      onSubmit={(values, actions) => {
+        setTimeout(() => {
+          actions.resetForm({
+            firstName: "",
+            lastName: "",
+            email: "",
+            intro: "",
+            job: "",
+            terms: false,
+          });
+          actions.setSubmitting(false);
+        }, 5000);
       }}
     >
-      <Form className="p-10 w-full max-w-[500px] mx-auto" autoComplete="off">
-        <MyInput
-          label="First name"
-          name="firstName"
-          placeholder="Enter your first name"
-        ></MyInput>
-        <MyInput
-          label="Last name"
-          name="lastName"
-          placeholder="Enter your last name"
-        ></MyInput>
-        <MyInput
-          label="Email address"
-          name="email"
-          placeholder="Enter your email"
-          type="email"
-        ></MyInput>
-        <MyTextarea
-          label="Intro"
-          name="intro"
-          placeholder="Introduce yourself..."
-        ></MyTextarea>
-        <MySelectBox label="Your job" name="job" placeholder="Select your job">
-          <option value="pm">Project Manager</option>
-          <option value="ba">Business Analyst</option>
-        </MySelectBox>
-        <MyCheckbox name="terms">I accept the terms and conditions</MyCheckbox>
-        <div>
-          <button
-            type="submit"
-            className="w-full p-4 bg-blue-500 text-white font-semibold rounded-lg"
+      {({ isSubmitting }) => (
+        <Form className="p-10 w-full max-w-[500px] mx-auto" autoComplete="off">
+          <MyInput
+            label="First name"
+            name="firstName"
+            placeholder="Enter your first name"
+          ></MyInput>
+          <MyInput
+            label="Last name"
+            name="lastName"
+            placeholder="Enter your last name"
+          ></MyInput>
+          <MyInput
+            label="Email address"
+            name="email"
+            placeholder="Enter your email"
+            type="email"
+          ></MyInput>
+          <MyTextarea
+            label="Intro"
+            name="intro"
+            placeholder="Introduce yourself..."
+          ></MyTextarea>
+          <MySelectBox
+            label="Your job"
+            name="job"
+            placeholder="Select your job"
           >
-            Submit
-          </button>
-        </div>
-      </Form>
+            <option value="pm">Project Manager</option>
+            <option value="ba">Business Analyst</option>
+          </MySelectBox>
+          <MyCheckbox name="terms">
+            I accept the terms and conditions
+          </MyCheckbox>
+          <div>
+            <button
+              type="submit"
+              className="w-full p-4 bg-blue-500 text-white font-semibold rounded-lg"
+              disabled={isSubmitting}
+            >
+              Submit
+            </button>
+          </div>
+        </Form>
+      )}
     </Formik>
   );
 };
@@ -99,7 +118,6 @@ const MyTextarea = ({ label, ...props }) => {
     <div className="flex flex-col gap-2 mb-5">
       <label htmlFor={props.id || props.name}>{label}</label>
       <textarea
-        t
         {...field}
         {...props}
         className="p-4 rounded-md border border-gray-100 outline-none h-[150px] resize-none"
