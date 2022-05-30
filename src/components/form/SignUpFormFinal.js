@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, useField } from "formik";
 import * as Yup from "yup";
 
 const SignUpFormFinal = () => {
@@ -32,42 +32,22 @@ const SignUpFormFinal = () => {
       }}
     >
       <Form className="p-10 w-full max-w-[500px] mx-auto" autoComplete="off">
-        <div className="flex flex-col gap-2 mb-5">
-          <label htmlFor="firstname">First name</label>
-          <Field
-            type="text"
-            name="firstName"
-            placeholder="Enter your first name"
-            className="p-4 rounded-md border border-gray-100 outline-none"
-          ></Field>
-          <div className="text-sm text-red-500">
-            <ErrorMessage name="firstName"></ErrorMessage>
-          </div>
-        </div>
-        <div className="flex flex-col gap-2 mb-5">
-          <label htmlFor="lastName">Last name</label>
-          <Field
-            type="text"
-            name="lastName"
-            placeholder="Enter your last name"
-            className="p-4 rounded-md border border-gray-100 outline-none"
-          ></Field>
-          <div className="text-sm text-red-500">
-            <ErrorMessage name="lastName"></ErrorMessage>
-          </div>
-        </div>
-        <div className="flex flex-col gap-2 mb-5">
-          <label htmlFor="lastName">Email address</label>
-          <Field
-            type="email"
-            name="email"
-            placeholder="Enter your email"
-            className="p-4 rounded-md border border-gray-100 outline-none"
-          ></Field>
-          <div className="text-sm text-red-500">
-            <ErrorMessage name="email"></ErrorMessage>
-          </div>
-        </div>
+        <MyInput
+          label="First name"
+          name="firstName"
+          placeholder="Enter your first name"
+        ></MyInput>
+        <MyInput
+          label="Last name"
+          name="lastName"
+          placeholder="Enter your last name"
+        ></MyInput>
+        <MyInput
+          label="Email address"
+          name="email"
+          placeholder="Enter your email"
+          type="email"
+        ></MyInput>
         <div className="flex flex-col gap-2 mb-5">
           <label htmlFor="lastName">Intro</label>
           <Field
@@ -118,6 +98,33 @@ const SignUpFormFinal = () => {
         </div>
       </Form>
     </Formik>
+  );
+};
+
+const MyInput = ({ label, ...props }) => {
+  const [field, meta] = useField(props);
+  console.log(
+    "🚀 ~ file: SignUpFormFinal.js ~ line 131 ~ MyInput ~ meta",
+    meta
+  );
+  console.log(
+    "🚀 ~ file: SignUpFormFinal.js ~ line 131 ~ MyInput ~ field",
+    field
+  );
+
+  return (
+    <div className="flex flex-col gap-2 mb-5">
+      <label htmlFor={props.id || props.name}>{label}</label>
+      <Field
+        type="text"
+        {...field}
+        {...props}
+        className="p-4 rounded-md border border-gray-100 outline-none"
+      ></Field>
+      {meta.touched && meta.error ? (
+        <div className="text-sm text-red-500">{meta.error}</div>
+      ) : null}
+    </div>
   );
 };
 
