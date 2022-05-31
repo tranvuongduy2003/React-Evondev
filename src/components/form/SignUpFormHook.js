@@ -1,12 +1,23 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const schemaValidation = yup.object({
+  firstName: yup
+    .string()
+    .required("Please enter your first name")
+    .max(10, "Must be 10 characters or less"),
+});
 
 const SignUpFormHook = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    resolver: yupResolver(schemaValidation),
+  });
   console.log(useForm());
   const onSubmit = (values) => {
     console.log(values);
@@ -30,13 +41,8 @@ const SignUpFormHook = () => {
             maxLength: 10,
           })}
         />
-        {errors?.firstName?.type === "required" && (
-          <div className="text-red-500 text-sm">Please fill out this field</div>
-        )}
-        {errors?.firstName?.type === "maxLength" && (
-          <div className="text-red-500 text-sm">
-            Must be 10 characters or less
-          </div>
+        {errors?.firstName && (
+          <div className="text-red-500 text-sm">{errors.firstName.message}</div>
         )}
       </div>
       <div className="flex flex-col gap-2 mb-5">
