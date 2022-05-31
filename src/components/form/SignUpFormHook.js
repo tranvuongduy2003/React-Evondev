@@ -14,19 +14,20 @@ const SignUpFormHook = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isValid },
+    watch,
   } = useForm({
     resolver: yupResolver(schemaValidation),
+    mode: "onChange",
   });
-  console.log(useForm());
-  const onSubmit = (values) => {
-    return new Promise((resolve) => {
+  const watchShowAge = watch("showAge", false);
+  const onSubmit = async (values) =>
+    new Promise((resolve) => {
       setTimeout(() => {
         resolve();
         console.log(values);
       }, 5000);
     });
-  };
 
   return (
     <form
@@ -69,6 +70,17 @@ const SignUpFormHook = () => {
           className="p-4 rounded-md border border-gray-100 outline-none"
           {...register("email")}
         />
+      </div>
+      <div className="flex flex-col gap-2 mb-5">
+        <input type="checkbox" {...register("showAge")} />
+        {watchShowAge && (
+          <input
+            type="number"
+            name=""
+            id=""
+            placeholder="Please enter your age"
+          />
+        )}
       </div>
       <div>
         <button
