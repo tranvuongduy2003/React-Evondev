@@ -16,6 +16,7 @@ const SignUpFormHook = () => {
     handleSubmit,
     formState: { errors, isSubmitting, isValid },
     watch,
+    reset,
   } = useForm({
     resolver: yupResolver(schemaValidation),
     mode: "onChange",
@@ -27,6 +28,11 @@ const SignUpFormHook = () => {
         resolve();
         console.log(values);
       }, 5000);
+      reset({
+        firstName: "",
+        lastName: "",
+        email: "",
+      });
     });
 
   return (
