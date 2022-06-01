@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -17,23 +17,33 @@ const SignUpFormHook = () => {
     formState: { errors, isSubmitting, isValid },
     watch,
     reset,
+    setFocus,
+    setValue,
   } = useForm({
     resolver: yupResolver(schemaValidation),
     mode: "onChange",
   });
   const watchShowAge = watch("showAge", false);
-  const onSubmit = async (values) =>
-    new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-        console.log(values);
-      }, 5000);
+  const onSubmit = async (values) => {
+    if (isValid) {
+      console.log("send data to backend");
       reset({
         firstName: "",
         lastName: "",
         email: "",
       });
-    });
+    }
+  };
+
+  const handleSetDemoData = () => {
+    setValue("firstName", "evondev");
+    setValue("lastName", "duy");
+    setValue("email", "email@gmail.com");
+  };
+
+  useEffect(() => {
+    setFocus("firstName");
+  }, [setFocus]);
 
   return (
     <form
@@ -98,6 +108,14 @@ const SignUpFormHook = () => {
           ) : (
             "Submit"
           )}
+        </button>
+      </div>
+      <div>
+        <button
+          className="p-3 bg-green-400 text-white"
+          onClick={handleSetDemoData}
+        >
+          Demo data
         </button>
       </div>
     </form>
