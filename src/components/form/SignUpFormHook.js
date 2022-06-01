@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import PreviousMap from "postcss/lib/previous-map";
 
 const schemaValidation = yup.object({
   firstName: yup
@@ -19,6 +20,7 @@ const SignUpFormHook = () => {
     reset,
     setFocus,
     setValue,
+    control,
   } = useForm({
     resolver: yupResolver(schemaValidation),
     mode: "onChange",
@@ -79,13 +81,19 @@ const SignUpFormHook = () => {
       </div>
       <div className="flex flex-col gap-2 mb-5">
         <label htmlFor="email">Email address</label>
-        <input
+        <MyInput
+          name="email"
+          placeholder="Enter your email address"
+          id="email"
+          control={control}
+        ></MyInput>
+        {/* <input
           type="email"
           id="email"
           placeholder="Enter your email address"
           className="p-4 rounded-md border border-gray-100 outline-none"
           {...register("email")}
-        />
+        /> */}
       </div>
       <div className="flex flex-col gap-2 mb-5">
         <input type="checkbox" {...register("showAge")} />
@@ -119,6 +127,25 @@ const SignUpFormHook = () => {
         </button>
       </div>
     </form>
+  );
+};
+
+const MyInput = ({ ...props }) => {
+  return (
+    <div>
+      <Controller
+        name={props.name}
+        defaultValue=""
+        control={props.control}
+        render={({ field }) => (
+          <input
+            className="p-4 rounded-md border border-gray-100 outline-none"
+            {...field}
+            {...props}
+          />
+        )}
+      ></Controller>
+    </div>
   );
 };
 
