@@ -2,12 +2,13 @@ import React from "react";
 import { useState } from "react";
 import ModalAdvanced from "./components/Modal/ModalAdvanced";
 import ModalBase from "./components/Modal/ModalBase";
+import TooltipAdcanced from "./components/tooltips/TooltipAdcanced";
 
 const App = () => {
   const [openModalBase, setOpenModalBase] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   return (
-    <div className="p-5">
+    <div className="flex items-center justify-center h-screen p-5">
       <button
         className="p-5 mr-5 text-center text-white bg-blue-400 rounded-lg"
         onClick={() => setOpenModalBase(true)}
@@ -61,6 +62,9 @@ const App = () => {
           Submit
         </button>
       </ModalAdvanced>
+      <div className="inline-block ml-5">
+        <TooltipAdcanced title="Tooltip">This is a tooltip</TooltipAdcanced>
+      </div>
     </div>
   );
 };
