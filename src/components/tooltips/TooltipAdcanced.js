@@ -24,12 +24,13 @@ const TooltipAdcanced = ({ title, children }) => {
     <div className="relative inline-block">
       <CSSTransition in={visible} unmountOnExit classNames="fade" timeout={300}>
         {(status) => (
-          <Portal visible={status !== "exited"}>
+          <Portal overlay={false} visible={status !== "exited"}>
             <p
-              className="inline-block absolute p-3 text-white -translate-x-1/2 -translate-y-full bg-black rounded-xl max-w-[200px]"
+              className="tooltip inline-block absolute p-3 text-white -translate-x-1/2 -translate-y-full bg-black rounded-xl max-w-[200px]"
               style={{
                 top: coords.top - coords.height / 2 + window.screenY,
                 left: coords.left + coords.width / 2,
+                transition: "all 300ms",
               }}
             >
               {children}
